@@ -1,2 +1,16 @@
 fastapi
-uvicorn
+uvicorn[standard]
+sqlalchemy
+psycopg[binary]
+cryptography
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+pydantic
+pydantic-settings
+python-multipart
+email-validator
+alembic
+httpx
+starlette
+bcrypt==4.0.1
