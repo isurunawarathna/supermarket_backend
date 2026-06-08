@@ -1,14 +1,34 @@
 from sqlalchemy.orm import Session
 from app.repository import UserRepository
-from app.schemas import UserCreate, UserResponse, UserPatch
+from app.schemas import UserCreate, UserResponse, UserPatch,LoginRequest,TokenResponse
 from typing import Optional
 from fastapi import HTTPException
 from starlette import status
+from app.config import verify_password, create_access_token
 
 class UserService:
 
     def __init__(self, repository: UserRepository):
         self.repository = repository
+
+    def authenticate(self, db: Session, request: LoginRequest) -> TokenResponse:
+        user = self.repository.get_by_email(email=request.email, db=db)
+
+        if not user or not verify_password(plain_password=request.password,hashed_password=user.hash_password):
+
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid email address or password")
+
+        if user.status_id != 1:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Account is disabled")
+
+        token = create_access_token(
+            data={
+                "sub": str(user.user_id),
+                "role": user.role_id
+            }
+        )
+
+        return TokenResponse(access_token=token,token_type="bearer",user=UserResponse.model_validate(user))
 
     def create_user(self, user_data:UserCreate,db: Session) -> UserResponse:
 

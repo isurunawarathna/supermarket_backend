@@ -9,8 +9,13 @@ class Status(Base):
     status_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     status_name = Column(String(50), unique=True, nullable=False)
 
-    # Relationship
     users = relationship("User", back_populates="status")
+    products = relationship("Products",back_populates="status")
+    suppliers = relationship("Supplier", back_populates="status")
+    customers = relationship("Customers",back_populates="status")
+    # payments = relationship("Payments",back_populates="status")
+
+
 
     def __repr__(self):
-        return f"<Status {self.name}>"
+        return f"<Status {self.status_name}>"

@@ -14,7 +14,7 @@ class User(Base):
     email = Column(String(200),unique=True,index=True,nullable=False)
     hash_password = Column(String(255),nullable=False)
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
-    status_id = Column(Integer, ForeignKey("statuses.status_id"), nullable=False,default=1)
+    status_id = Column(Integer, ForeignKey("statuses.status_id"), nullable=False)
     created_at = Column(DateTime,default=datetime.now())
     updated_at = Column(DateTime,default=datetime.now(),onupdate=datetime.now())
 

@@ -7,13 +7,14 @@ from app.service import UserService
 from app.repository import UserRepository
 from sqlalchemy.orm import Session
 from app.config import get_db
+from app.middleware import require_admin
 
 routers = APIRouter(prefix="/users",tags=["Users"])
 
 user_service = UserService(repository=UserRepository())
 
 @routers.post("/",response_model=UserResponse,status_code=status.HTTP_201_CREATED)
-def create_users(user_data:UserCreate,db:Session = Depends(get_db)):
+def create_users(user_data:UserCreate,db:Session = Depends(get_db),current_user:UserResponse = Depends(require_admin)):
     try:
         return user_service.create_user(user_data=user_data,db=db)
     except Exception as e:

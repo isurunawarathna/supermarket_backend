@@ -1,4 +1,5 @@
 from typing import Optional
+from datetime import datetime
 from sqlalchemy.orm import Session,joinedload
 from app.models import User
 from app.schemas import UserResponse, UserCreate, UserPatch
@@ -19,7 +20,9 @@ class UserRepository:
             email=user_data.email,
             hash_password=hashed_password,
             role_id=user_data.role_id,
-            status_id=user_data.status_id
+            status_id=user_data.status_id,
+            created_at=datetime.now(),
+            updated_at=datetime.now()
         )
 
         db.add(new_user)
@@ -36,7 +39,7 @@ class UserRepository:
         return db.query(User).filter(User.user_id == user_id).first()
 
     @staticmethod
-    def get_by_email(email:str,db:Session)->Optional[UserResponse]:
+    def get_by_email(email:str,db:Session):
         return db.query(User).filter(User.email == email).first()
 
     @staticmethod
