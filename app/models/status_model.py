@@ -13,6 +13,7 @@ class Status(Base):
     products = relationship("Products",back_populates="status")
     suppliers = relationship("Supplier", back_populates="status")
     customers = relationship("Customers",back_populates="status")
+    orders = relationship("Orders",back_populates="status")
     # payments = relationship("Payments",back_populates="status")
 
 

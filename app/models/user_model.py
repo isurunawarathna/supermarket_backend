@@ -20,6 +20,7 @@ class User(Base):
 
     role = relationship("Role", back_populates="users")
     status = relationship("Status", back_populates="users")
+    orders = relationship("Orders",back_populates="users")
 
     def __repr__(self):
         return f"<User {self.email} ({self.role})>"

@@ -2,3 +2,4 @@ from app.repository.user_repository import UserRepository
 from app.repository.product_repository import ProductsRepository
 from app.repository.supplier_repository import SupplierRepository
 from app.repository.customer_repository import CustomerRepository
+from app.repository.order_repository import OrdersRepository
